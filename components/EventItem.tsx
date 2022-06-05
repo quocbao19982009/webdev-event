@@ -10,24 +10,31 @@ interface EventItemProps {
 }
 
 const EventItem = ({ event }: EventItemProps) => {
+  const { name, slug, date, time } = event.attributes;
+
+  console.log(event.attributes);
   return (
     <div className={styles.event}>
       <div className={styles.img}>
         <Image
-          src={event.image ? event.image : "/images/event-default.png"}
+          src={
+            event.attributes.image.data
+              ? event.attributes.image.data.attributes.formats.thumbnail.url
+              : "/images/event-default.png"
+          }
           height={100}
           width={170}
         />
       </div>
       <div className={styles.info}>
         <span>
-          {event.date} at {event.time}
+          {date} at {time}
         </span>
-        <h3>{event.name}</h3>
+        <h3>{name}</h3>
       </div>
 
       <div className={styles.link}>
-        <Link href={`/events/${event.slug}`}>
+        <Link href={`/events/${slug}`}>
           <a className="btn">Details</a>
         </Link>
       </div>

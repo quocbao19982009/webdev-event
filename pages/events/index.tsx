@@ -1,5 +1,6 @@
 import EventItem from "@/components/EventItem";
 import { EventInterface } from "@/types/eventInterface";
+import { getAllEvents } from "lib/api";
 import { GetServerSideProps } from "next";
 import React from "react";
 
@@ -25,8 +26,7 @@ const EventsPage = ({ events }: EventsPageProps) => {
 export default EventsPage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/events`);
-  const events = await res.json();
+  const events = await getAllEvents();
 
   return {
     props: {

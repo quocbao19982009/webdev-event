@@ -7,6 +7,7 @@ import { EventInterface } from "@/types/eventInterface";
 import Layout from "@/components/Layout";
 import styles from "@/styles/EventDetailPage.module.css";
 import Image from "next/image";
+import { getEventsBySlug } from "lib/api";
 
 interface EventDetailPageProps {
   event: EventInterface;
@@ -14,6 +15,11 @@ interface EventDetailPageProps {
 
 const EventDetailPage = ({ event }: EventDetailPageProps) => {
   const deleteEvent = () => {};
+
+  const { venue, address, date, time, performers, description, image } =
+    event.attributes;
+
+  console.log(event);
 
   return (
     <Layout>
@@ -30,17 +36,25 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
           </a>
         </div>
         <span>
-          {event.date} at {event.time}
+          {date} at {time}
         </span>
         <div className={styles.image}>
-          <Image src={event.image} width={960} height={600} />
+          <Image
+            src={
+              image.data
+                ? image.data.attributes.formats.medium.url
+                : "/images/event-default.png"
+            }
+            width={960}
+            height={600}
+          />
         </div>
         <h3>Performers:</h3>
-        <p>{event.performers}</p>
+        <p>{performers}</p>
         <h3>Description</h3>
-        <p>{event.description}</p>
-        <h3>Venue: {event.venue}</h3>
-        <p>{event.address}</p>
+        <p>{description}</p>
+        <h3>Venue: {venue}</h3>
+        <p>{address}</p>
         <Link href="/events">
           <a className={styles.back}>{"<"} Go Back</a>
         </Link>
@@ -52,11 +66,8 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
 export default EventDetailPage;
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const slug = context.params!.slug;
-  const res = await fetch(`${process.env.API_URL}/api/events/${slug}`);
-  const event = await res.json();
-
-  console.log(event);
+  const slug = context.params!.slug as string;
+  const event = await getEventsBySlug(slug);
 
   return {
     props: {
