@@ -6,7 +6,7 @@ import styles from "@/styles/Home.module.css";
 import Layout from "@/components/Layout";
 import { EventInterface } from "@/types/eventInterface";
 import EventItem from "@/components/EventItem";
-import { getAllEvents } from "lib/api";
+import { getAllEvents, getUpcomingEvents } from "lib/api";
 interface HomePageProps {
   events: EventInterface[];
 }
@@ -27,7 +27,7 @@ const HomePage = ({ events }: HomePageProps) => {
 export default HomePage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const events = await getAllEvents();
+  const events = await getUpcomingEvents();
 
   return {
     props: {

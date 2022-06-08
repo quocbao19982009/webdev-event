@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 import styles from "@/styles/EventItem.module.css";
 import { EventInterface } from "@/types/eventInterface";
@@ -12,7 +13,6 @@ interface EventItemProps {
 const EventItem = ({ event }: EventItemProps) => {
   const { name, slug, date, time } = event.attributes;
 
-  console.log(event.attributes);
   return (
     <div className={styles.event}>
       <div className={styles.img}>
@@ -28,7 +28,7 @@ const EventItem = ({ event }: EventItemProps) => {
       </div>
       <div className={styles.info}>
         <span>
-          {date} at {time}
+          {dayjs(date).format("ddd DD.MM.YYYY")} at {time}
         </span>
         <h3>{name}</h3>
       </div>

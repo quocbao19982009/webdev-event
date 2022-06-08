@@ -6,4 +6,7 @@ export interface EventInputInterface {
   performers: string;
   time: string;
   venue: string;
+  image?: {
+    id: number | string;
+  };
 }

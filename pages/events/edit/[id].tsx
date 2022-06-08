@@ -1,26 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import dayjs from "dayjs";
+import Image from "next/image";
+import { FaImage } from "react-icons/fa";
+import { GetServerSideProps } from "next";
+import Link from "next/link";
 
 import styles from "@/styles/Form.module.css";
-import Layout from "../../components/Layout";
-import Link from "next/link";
+import Layout from "@/components/Layout";
 import { EventInputInterface } from "@/types/eventInputInterface";
-import { addEvent } from "lib/api";
+import { getEventById, updateEvent } from "lib/api";
+import { EventInterface } from "@/types/eventInterface";
+import Modal from "@/components/Modal";
+import ImageUpload from "@/components/ImageUpload";
+import { ImageInterface } from "@/types/imageInterface";
 
-const AddPage = () => {
+interface EditPageProps {
+  event: EventInterface;
+}
+
+const EditPage = ({ event }: EditPageProps) => {
   const router = useRouter();
 
   const [inputValue, setInputValue] = useState<EventInputInterface>({
-    name: "",
-    performers: "",
-    venue: "",
-    address: "",
-    date: "",
-    time: "",
-    description: "",
+    name: event.attributes.name,
+    performers: event.attributes.performers,
+    venue: event.attributes.venue,
+    address: event.attributes.address,
+    date: event.attributes.date,
+    time: event.attributes.time,
+    description: event.attributes.description,
+    image: { id: event.attributes.image.data.id },
   });
+
+  const [imagePreview, setImagePreview] = useState(
+    event.attributes.image.data
+      ? event.attributes.image.data.attributes.formats.thumbnail.url
+      : null
+  );
+
+  const [showModal, setShowModal] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +54,7 @@ const AddPage = () => {
       toast.error("Please entered valid input");
     }
 
-    const res = await addEvent(inputValue);
+    const res = await updateEvent(event.id, inputValue);
 
     if (!res.ok) {
       toast.error("Something went wrong");
@@ -51,11 +72,23 @@ const AddPage = () => {
     setInputValue({ ...inputValue, [name]: value });
   };
 
+  const imageUploadHandler = (image: ImageInterface) => {
+    setInputValue({ ...inputValue, image: { id: image.id } });
+    setImagePreview(image.formats.thumbnail.url);
+    setShowModal(false);
+  };
+
+  useEffect(() => {
+    if (!event) {
+      router.push("/404");
+    }
+  }, [event]);
+
   return (
     <Layout>
       <Link href="/events">Go Back</Link>
       <ToastContainer />
-      <h3>Add Event</h3>
+      <h3>Edit Event</h3>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.grid}>
           <div>
@@ -104,14 +137,14 @@ const AddPage = () => {
               type="date"
               name="date"
               id="date"
-              value={inputValue.date}
+              value={dayjs(inputValue.date).format("YYYY-MM-DD")}
               onChange={handleInputChange}
             />
           </div>
           <div>
             <label htmlFor="time">Time</label>
             <input
-              type="time"
+              type="Text"
               name="time"
               id="time"
               value={inputValue.time}
@@ -130,11 +163,52 @@ const AddPage = () => {
         </div>
 
         <button type="submit" className="btn">
-          Add event
+          Update event
         </button>
+        <h2>Event Image</h2>
+        {imagePreview ? (
+          <Image src={imagePreview} height={100} width={170}></Image>
+        ) : (
+          <div>
+            <p>No image upload</p>
+          </div>
+        )}
       </form>
+      <div>
+        <button onClick={() => setShowModal(true)} className="btn-secondary">
+          <FaImage /> Set Image
+        </button>
+      </div>
+      <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        title={"Edit Image"}
+      >
+        <ImageUpload eventId={event.id} imageUploaded={imageUploadHandler} />
+      </Modal>
     </Layout>
   );
 };
 
-export default AddPage;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id = context.params!.id as string;
+
+  const event = await getEventById(id);
+
+  console.log(event);
+
+  if (!event) {
+    return {
+      redirect: {
+        destination: "/404",
+      },
+      props: {},
+    };
+  }
+
+  return {
+    props: { event },
+  };
+};
+
+export default EditPage;
