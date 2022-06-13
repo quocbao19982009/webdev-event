@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,13 +9,15 @@ import Link from "next/link";
 import { AuthContext } from "context/AuthContext";
 
 const RegisterPage = () => {
-  const [userName, setUserName] = useState("");
+  const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
 
   const ctx = useContext(AuthContext);
+
   const register = ctx!.register;
+  const error = ctx!.error;
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,22 +26,25 @@ const RegisterPage = () => {
       toast.error("Password Not Match");
     }
 
-    register({ userName, email, password });
+    register({ username, email, password });
   };
 
+  useEffect(() => {
+    error && toast.error(error);
+  });
   return (
     <Layout title="User Login">
+      <ToastContainer />
       <div className={styles.auth}>
         <h1>
           <FaUser /> Register
         </h1>
-        <ToastContainer />
         <form onSubmit={submitHandler}>
           <label htmlFor="userName">User Name:</label>
           <input
             id="userName"
             type={"userName"}
-            value={userName}
+            value={username}
             onChange={(e) => setUserName(e.target.value)}
           />
           <label htmlFor="email">Email:</label>

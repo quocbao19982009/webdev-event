@@ -1,5 +1,5 @@
 export default interface UserInputInterface {
-  userName?: string;
+  username?: string;
   email: string;
   password: string;
 }
