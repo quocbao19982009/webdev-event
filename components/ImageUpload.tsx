@@ -33,7 +33,6 @@ const ImageUpload = ({ eventId, imageUploaded }: ImageUploadProps) => {
 
     if (res.ok) {
       const image = await res.json();
-      console.log(image);
       imageUploaded(image[0]);
       return;
     }

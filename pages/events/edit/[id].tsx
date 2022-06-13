@@ -32,7 +32,9 @@ const EditPage = ({ event }: EditPageProps) => {
     date: event.attributes.date,
     time: event.attributes.time,
     description: event.attributes.description,
-    image: { id: event.attributes.image.data.id },
+    image: {
+      id: event.attributes.image.data ? event.attributes.image.data.id : "",
+    },
   });
 
   const [imagePreview, setImagePreview] = useState(
@@ -192,10 +194,10 @@ const EditPage = ({ event }: EditPageProps) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.params!.id as string;
-
+  const req = context.req;
   const event = await getEventById(id);
 
-  console.log(event);
+  console.log(req.headers.cookie);
 
   if (!event) {
     return {

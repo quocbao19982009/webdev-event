@@ -3,6 +3,7 @@ import qs from "qs";
 import { EventInterface } from "@/types/eventInterface";
 import { EventInputInterface } from "@/types/eventInputInterface";
 import { MetaInterface } from "@/types/metaInterface";
+import { json } from "stream/consumers";
 
 export const getAllEvents = async (pageNumber: number | string = 1) => {
   const query = qs.stringify(

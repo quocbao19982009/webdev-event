@@ -6,6 +6,7 @@ const nextConfig = {
   reactStrictMode: true,
   env: {
     API_URL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337",
+    NEXT_URL: process.env.NEXT_PUBLIC_NEXT_URL || "http://localhost:3000",
   },
 };
 
