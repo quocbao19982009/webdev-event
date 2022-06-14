@@ -5,9 +5,10 @@ import { ImageInterface } from "@/types/imageInterface";
 interface ImageUploadProps {
   eventId: string | number;
   imageUploaded: (image: ImageInterface) => void;
+  token: string;
 }
 
-const ImageUpload = ({ eventId, imageUploaded }: ImageUploadProps) => {
+const ImageUpload = ({ eventId, imageUploaded, token }: ImageUploadProps) => {
   const [image, setImage] = useState<null | File>(null);
 
   console.log("Image upload");
@@ -29,6 +30,9 @@ const ImageUpload = ({ eventId, imageUploaded }: ImageUploadProps) => {
     const res = await fetch(`${process.env.API_URL}/api/upload`, {
       method: "POST",
       body: formData,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
     if (res.ok) {

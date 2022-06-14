@@ -8,8 +8,14 @@ import Layout from "../../components/Layout";
 import Link from "next/link";
 import { EventInputInterface } from "@/types/eventInputInterface";
 import { addEvent } from "lib/api";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "lib/helper";
 
-const AddPage = () => {
+interface AddPageProps {
+  token: string;
+}
+
+const AddPage = ({ token }: AddPageProps) => {
   const router = useRouter();
 
   const [inputValue, setInputValue] = useState<EventInputInterface>({
@@ -22,6 +28,8 @@ const AddPage = () => {
     description: "",
   });
 
+  console.log(token);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -31,11 +39,16 @@ const AddPage = () => {
 
     if (isInputInvalid) {
       toast.error("Please entered valid input");
+      return;
     }
 
-    const res = await addEvent(inputValue);
+    const res = await addEvent(inputValue, token);
 
     if (!res.ok) {
+      if (res.status === 403) {
+        toast.error("Not Authorize");
+        return;
+      }
       toast.error("Something went wrong");
     } else {
       const { data } = await res.json();
@@ -138,3 +151,13 @@ const AddPage = () => {
 };
 
 export default AddPage;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req } = context;
+  const { token } = parseCookies(req);
+  console.log(token);
+
+  return {
+    props: { token },
+  };
+};

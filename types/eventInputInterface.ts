@@ -8,5 +8,5 @@ export interface EventInputInterface {
   venue: string;
   image?: {
     id: number | string;
-  };
+  } | null;
 }

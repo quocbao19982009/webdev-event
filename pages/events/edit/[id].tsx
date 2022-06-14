@@ -16,14 +16,15 @@ import { EventInterface } from "@/types/eventInterface";
 import Modal from "@/components/Modal";
 import ImageUpload from "@/components/ImageUpload";
 import { ImageInterface } from "@/types/imageInterface";
+import { parseCookies } from "lib/helper";
 
 interface EditPageProps {
   event: EventInterface;
+  token: string;
 }
 
-const EditPage = ({ event }: EditPageProps) => {
+const EditPage = ({ event, token }: EditPageProps) => {
   const router = useRouter();
-
   const [inputValue, setInputValue] = useState<EventInputInterface>({
     name: event.attributes.name,
     performers: event.attributes.performers,
@@ -32,9 +33,13 @@ const EditPage = ({ event }: EditPageProps) => {
     date: event.attributes.date,
     time: event.attributes.time,
     description: event.attributes.description,
-    image: {
-      id: event.attributes.image.data ? event.attributes.image.data.id : "",
-    },
+    image: event.attributes.image.data
+      ? { id: event.attributes.image.data.id }
+      : null,
+
+    // {
+    //   id: event.attributes.image.data ? event.attributes.image.data.id : null,
+    // },
   });
 
   const [imagePreview, setImagePreview] = useState(
@@ -56,7 +61,9 @@ const EditPage = ({ event }: EditPageProps) => {
       toast.error("Please entered valid input");
     }
 
-    const res = await updateEvent(event.id, inputValue);
+    const res = await updateEvent(event.id, inputValue, token);
+
+    console.log(res);
 
     if (!res.ok) {
       toast.error("Something went wrong");
@@ -186,7 +193,11 @@ const EditPage = ({ event }: EditPageProps) => {
         onClose={() => setShowModal(false)}
         title={"Edit Image"}
       >
-        <ImageUpload eventId={event.id} imageUploaded={imageUploadHandler} />
+        <ImageUpload
+          token={token}
+          eventId={event.id}
+          imageUploaded={imageUploadHandler}
+        />
       </Modal>
     </Layout>
   );
@@ -196,8 +207,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.params!.id as string;
   const req = context.req;
   const event = await getEventById(id);
-
-  console.log(req.headers.cookie);
+  const { token } = parseCookies(req);
 
   if (!event) {
     return {
@@ -209,7 +219,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   return {
-    props: { event },
+    props: { event, token },
   };
 };
 
