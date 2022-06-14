@@ -13,6 +13,7 @@ import styles from "@/styles/EventDetailPage.module.css";
 import Image from "next/image";
 import { deleteEvent, getEventsBySlug } from "lib/api";
 import { AuthContext } from "context/AuthContext";
+import EventMap from "@/components/EventMap";
 
 interface EventDetailPageProps {
   event: EventInterface;
@@ -25,19 +26,6 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
   const user = ctx?.user;
   console.log(event);
   console.log(user);
-
-  const deleteEventHandler = async () => {
-    if (confirm("Are you sure?")) {
-      const res = await deleteEvent(event.id);
-
-      if (!res.ok) {
-        toast.error("Fail to delete event");
-      } else {
-        router.push("/events");
-      }
-    }
-    return;
-  };
 
   const { venue, address, date, time, performers, description, image, name } =
     event.attributes;
@@ -69,6 +57,7 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
           <p>{description}</p>
           <h3>Venue: {venue}</h3>
           <p>{address}</p>
+          <EventMap eventAddress={event.attributes.address} />
           <Link href="/events">
             <a className={styles.back}>{"<"} Go Back</a>
           </Link>
