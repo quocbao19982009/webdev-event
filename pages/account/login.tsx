@@ -21,7 +21,7 @@ const LoginPage = () => {
 
     login({ email, password });
   };
-  console.log(error, "error loaded");
+
   useEffect(() => {
     error && toast.error(error);
   });

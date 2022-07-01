@@ -25,9 +25,10 @@ interface EditPageProps {
 
 const EditPage = ({ event, token }: EditPageProps) => {
   const router = useRouter();
+
   const [inputValue, setInputValue] = useState<EventInputInterface>({
     name: event.attributes.name,
-    performers: event.attributes.performers,
+    organizer: event.attributes.organizer,
     venue: event.attributes.venue,
     address: event.attributes.address,
     date: event.attributes.date,
@@ -62,8 +63,6 @@ const EditPage = ({ event, token }: EditPageProps) => {
     }
 
     const res = await updateEvent(event.id, inputValue, token);
-
-    console.log(res);
 
     if (!res.ok) {
       toast.error("Something went wrong");
@@ -111,12 +110,12 @@ const EditPage = ({ event, token }: EditPageProps) => {
             />
           </div>
           <div>
-            <label htmlFor="performers">Performers</label>
+            <label htmlFor="organizer">Organizer</label>
             <input
               type="text"
-              name="performers"
-              id="performers"
-              value={inputValue.performers}
+              name="organizer"
+              id="organizer"
+              value={inputValue.organizer}
               onChange={handleInputChange}
             />
           </div>

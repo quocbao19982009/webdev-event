@@ -18,8 +18,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const data = await strapiRes.json();
 
-    console.log("In api", { username, email, password });
-
     if (strapiRes.ok) {
       // set Cookie in http
       res.setHeader(

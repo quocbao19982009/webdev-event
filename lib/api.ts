@@ -82,7 +82,7 @@ export const getEventByTerm = async (input: string) => {
             },
           },
           {
-            performers: {
+            organizer: {
               $containsi: input,
             },
           },

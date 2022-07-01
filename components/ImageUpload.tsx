@@ -10,17 +10,16 @@ interface ImageUploadProps {
 
 const ImageUpload = ({ eventId, imageUploaded, token }: ImageUploadProps) => {
   const [image, setImage] = useState<null | File>(null);
-
-  console.log("Image upload");
+  const [loadingImage, setLoadingImage] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!image) {
       alert("Please insert a image");
       return;
     }
 
+    setLoadingImage(true);
     const formData = new FormData();
     formData.append("files", image);
     formData.append("ref", "api::event.event");
@@ -38,20 +37,30 @@ const ImageUpload = ({ eventId, imageUploaded, token }: ImageUploadProps) => {
     if (res.ok) {
       const image = await res.json();
       imageUploaded(image[0]);
+      setLoadingImage(false);
       return;
+    }
+    if (!res.ok) {
+      setLoadingImage(false);
+      alert("Cannot updated Image");
     }
   };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setImage(e.target.files && e.target.files[0]);
   };
-  console.log(image ? true : false, "Is image here?");
+
   return (
     <div className={styles.form}>
       <h1>Upload Event Image</h1>
       <form onSubmit={handleSubmit}>
         <div className={styles.file}>
-          <input type="file" onChange={handleFileChange}></input>
+          <input
+            accept="image/png, image/gif, image/jpeg"
+            type="file"
+            onChange={handleFileChange}
+          ></input>
         </div>
+        {loadingImage && <p>Uploading, please wait...</p>}
         <button type="submit" className="btn">
           Upload
         </button>

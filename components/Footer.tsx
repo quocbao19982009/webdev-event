@@ -6,7 +6,7 @@ import styles from "@/styles/Footer.module.css";
 const Footer = () => {
   return (
     <div className={styles.footer}>
-      <p>Copyright &copy; DJ Events</p>
+      <p>Copyright &copy; WebDev Events</p>
       <p>
         <Link href="/about">About this page</Link>
       </p>

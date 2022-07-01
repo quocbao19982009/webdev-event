@@ -12,6 +12,7 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
   const [viewport, setViewport] = useState({
     latitude: 61.4978,
     longitude: 23.761,
@@ -33,12 +34,15 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
         setLoading(false);
       },
       (error) => {
-        console.error(error);
+        setLoading(false);
+        setError("Cannot locatated the event");
       }
     );
   }, []);
 
   if (loading) return <h5>Loading Map...</h5>;
+  if (!loading && error)
+    return <p style={{ fontSize: "1.6rem" }}>Cannot loaded the map</p>;
 
   return (
     <Map

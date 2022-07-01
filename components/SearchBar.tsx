@@ -20,7 +20,7 @@ const SearchBar = () => {
           type="text"
           value={term}
           onChange={(e) => setTerm(e.target.value)}
-          placeholder="Search Evnts"
+          placeholder="Search Events"
         />
       </form>
     </div>

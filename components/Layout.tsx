@@ -15,9 +15,9 @@ interface LayoutProps {
 }
 
 const Layout = ({
-  title = "DJ Events | Track your favorite festival right now",
-  description = "Find the lastest DJ event, musical festival event",
-  keywords = "music, dj, events, festival",
+  title = "WebDev Event | Let's talk about coding",
+  description = "Find events to discuss, meet same minded developer that passinate about web development",
+  keywords = "web, development, coding",
   children,
 }: LayoutProps) => {
   const router = useRouter();

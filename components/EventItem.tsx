@@ -20,7 +20,7 @@ const EventItem = ({ event }: EventItemProps) => {
           src={
             event.attributes.image.data
               ? event.attributes.image.data.attributes.formats.thumbnail.url
-              : "/images/event-default.png"
+              : "/images/event-default.jpg"
           }
           height={100}
           width={170}

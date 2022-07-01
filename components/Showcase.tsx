@@ -5,8 +5,8 @@ import styles from "@/styles/Showcase.module.css";
 const Showcase = () => {
   return (
     <div className={styles.showcase}>
-      <h1>Welcome to the Party!</h1>
-      <h2>Find the hostest party</h2>
+      <h1>Welcome to WebDev Events</h1>
+      <h2>Let's talk about web development, coding and technologies!</h2>
     </div>
   );
 };

@@ -1,16 +1,3 @@
-// export interface EventInterface {
-//   id: string;
-//   name: string;
-//   slug: string;
-//   venue: string;
-//   address: string;
-//   performers: string;
-//   date: string;
-//   time: string;
-//   description: string;
-//   image: string;
-// }
-
 export interface EventInterface {
   id: number;
   attributes: {
@@ -20,7 +7,7 @@ export interface EventInterface {
     address: string;
     date: string;
     time: string;
-    performers: string;
+    organizer: string;
     description: string;
     image: Image;
     createdAt?: string;

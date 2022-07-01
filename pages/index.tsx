@@ -7,6 +7,7 @@ import Layout from "@/components/Layout";
 import { EventInterface } from "@/types/eventInterface";
 import EventItem from "@/components/EventItem";
 import { getAllEvents, getUpcomingEvents } from "lib/api";
+import LoadingSpinner from "@/components/LoadingSpinner";
 interface HomePageProps {
   events: EventInterface[];
 }
@@ -14,9 +15,9 @@ interface HomePageProps {
 const HomePage = ({ events }: HomePageProps) => {
   return (
     <Layout>
+      <LoadingSpinner loading={false} />
       <h1> Upcoming Events</h1>
       {events.length === 0 && <h3>No events to show</h3>}
-
       {events.map((event) => {
         return <EventItem key={event.id} event={event} />;
       })}

@@ -3,7 +3,7 @@ export interface EventInputInterface {
   date: string;
   description: string;
   name: string;
-  performers: string;
+  organizer: string;
   time: string;
   venue: string;
   image?: {

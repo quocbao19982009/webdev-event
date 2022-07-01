@@ -20,15 +20,13 @@ const AddPage = ({ token }: AddPageProps) => {
 
   const [inputValue, setInputValue] = useState<EventInputInterface>({
     name: "",
-    performers: "",
+    organizer: "",
     venue: "",
     address: "",
     date: "",
     time: "",
     description: "",
   });
-
-  console.log(token);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,12 +80,12 @@ const AddPage = ({ token }: AddPageProps) => {
             />
           </div>
           <div>
-            <label htmlFor="performers">Performers</label>
+            <label htmlFor="organizer">Organizer</label>
             <input
               type="text"
-              name="performers"
-              id="performers"
-              value={inputValue.performers}
+              name="organizer"
+              id="organizer"
+              value={inputValue.organizer}
               onChange={handleInputChange}
             />
           </div>

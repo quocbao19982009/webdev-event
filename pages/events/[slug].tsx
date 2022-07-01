@@ -27,7 +27,7 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
   console.log(event);
   console.log(user);
 
-  const { venue, address, date, time, performers, description, image, name } =
+  const { venue, address, date, time, organizer, description, image, name } =
     event.attributes;
 
   return (
@@ -44,16 +44,16 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
               src={
                 image.data
                   ? image.data.attributes.url
-                  : "/images/event-default.png"
+                  : "/images/event-default.jpg"
               }
               width={960}
               height={600}
             />
           </div>
 
-          <h3>Performers:</h3>
-          <p>{performers}</p>
-          <h3>Description</h3>
+          <h3>Event Organizer:</h3>
+          <p>{organizer}</p>
+          <h3>Description:</h3>
           <p>{description}</p>
           <h3>Venue: {venue}</h3>
           <p>{address}</p>

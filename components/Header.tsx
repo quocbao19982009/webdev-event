@@ -8,13 +8,13 @@ import { AuthContext } from "context/AuthContext";
 
 const Header = () => {
   const ctx = useContext(AuthContext);
-  const user = ctx?.user;
-  const logout = ctx?.logout;
+  const user = ctx!.user;
+  const logout = ctx!.logout;
 
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <Link href={"/"}>DJ Events</Link>
+        <Link href={"/"}>WebDev Events</Link>
       </div>
       <SearchBar />
       <nav>

@@ -1,7 +1,6 @@
-import { EventInputInterface } from "@/types/eventInputInterface";
 import { parseCookies } from "lib/helper";
 import { GetServerSideProps } from "next";
-import React, { useContext } from "react";
+import React from "react";
 
 import Layout from "@/components/Layout";
 import styles from "@/styles/Dashbroad.module.css";
@@ -21,8 +20,6 @@ const DashboardPage = ({ events, token }: DashboardPageProps) => {
   const router = useRouter();
 
   const deleteHandler = async (id: string | number) => {
-    console.log("To delete event with id: ", id);
-    console.log(id, token);
     if (confirm("Are you sure?")) {
       const res = await deleteEvent(id, token);
       if (!res.ok) {

@@ -21,14 +21,13 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   // Checking if user login in every request
   useEffect(() => {
     checkUserLoggedIn();
-    console.log("effect run");
   }, []);
 
   // Register User
   const register = async (user: UserInputInterface) => {
     console.log(user, "in context");
 
-    const res = await fetch(`http://localhost:3000/api/register`, {
+    const res = await fetch(`${process.env.NEXT_URL}/api/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,8 +36,6 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     });
 
     const data = await res.json();
-
-    console.log(data, " in register context");
 
     if (res.ok) {
       setUser(data.user);
@@ -51,7 +48,7 @@ const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 
   // Login user
   const login = async ({ email: identifier, password }: UserInputInterface) => {
-    const res = await fetch(`http://localhost:3000/api/login`, {
+    const res = await fetch(`${process.env.NEXT_URL}/api/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
