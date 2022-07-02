@@ -19,9 +19,6 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
     zoom: 12,
   });
 
-  console.log(eventAddress);
-  console.log(viewport);
-
   Geocode.setApiKey(process.env.GOOGLE_MAP_API_KEY!);
 
   useEffect(() => {
@@ -38,7 +35,7 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
         setError("Cannot locatated the event");
       }
     );
-  }, []);
+  }, [eventAddress, viewport]);
 
   if (loading) return <h5>Loading Map...</h5>;
   if (!loading && error)
@@ -54,7 +51,12 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
       mapStyle="mapbox://styles/mapbox/streets-v9"
     >
       <Marker key={Math.random()} latitude={lat!} longitude={lng!}>
-        <Image src="/images/pin.svg" width={30} height={30}></Image>
+        <Image
+          alt="map pin"
+          src="/images/pin.svg"
+          width={30}
+          height={30}
+        ></Image>
       </Marker>
     </Map>
   );

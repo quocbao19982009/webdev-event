@@ -20,8 +20,6 @@ interface EventDetailPageProps {
 }
 
 const EventDetailPage = ({ event }: EventDetailPageProps) => {
-  const router = useRouter();
-
   const ctx = useContext(AuthContext);
   const user = ctx?.user;
   console.log(event);
@@ -41,6 +39,7 @@ const EventDetailPage = ({ event }: EventDetailPageProps) => {
           <h2>{name}</h2>
           <div className={styles.image}>
             <Image
+              alt="event's image"
               src={
                 image.data
                   ? image.data.attributes.url

@@ -6,7 +6,7 @@ const Showcase = () => {
   return (
     <div className={styles.showcase}>
       <h1>Welcome to WebDev Events</h1>
-      <h2>Let's talk about web development, coding and technologies!</h2>
+      <h2>Lets talk about web development, coding and technologies!</h2>
     </div>
   );
 };

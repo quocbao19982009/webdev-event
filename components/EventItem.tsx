@@ -17,6 +17,7 @@ const EventItem = ({ event }: EventItemProps) => {
     <div className={styles.event}>
       <div className={styles.img}>
         <Image
+          alt="event's image"
           src={
             event.attributes.image.data
               ? event.attributes.image.data.attributes.formats.thumbnail.url

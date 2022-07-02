@@ -90,7 +90,7 @@ const EditPage = ({ event, token }: EditPageProps) => {
     if (!event) {
       router.push("/404");
     }
-  }, [event]);
+  }, [event, router]);
 
   return (
     <Layout>
@@ -175,7 +175,12 @@ const EditPage = ({ event, token }: EditPageProps) => {
         </button>
         <h2>Event Image</h2>
         {imagePreview ? (
-          <Image src={imagePreview} height={100} width={170}></Image>
+          <Image
+            alt="event's image"
+            src={imagePreview}
+            height={100}
+            width={170}
+          ></Image>
         ) : (
           <div>
             <p>No image upload</p>

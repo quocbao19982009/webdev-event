@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
 
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+const loginHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     const { identifier, password } = req.body;
 
@@ -41,3 +41,5 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(405).json({ message: `Method ${req.method} not allowed` });
   }
 };
+
+export default loginHandler;
