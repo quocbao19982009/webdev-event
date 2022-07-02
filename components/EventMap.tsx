@@ -19,7 +19,7 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
     zoom: 12,
   });
 
-  Geocode.setApiKey(process.env.GOOGLE_MAP_API_KEY!);
+  Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY!);
 
   useEffect(() => {
     Geocode.fromAddress(eventAddress).then(
@@ -35,17 +35,16 @@ const EventMap = ({ eventAddress }: EventMapProps) => {
         setError("Cannot locatated the event");
       }
     );
-  }, [eventAddress, viewport]);
+  }, []);
 
   if (loading) return <h5>Loading Map...</h5>;
   if (!loading && error)
     return <p style={{ fontSize: "1.6rem" }}>Cannot loaded the map</p>;
-
   return (
     <Map
       {...viewport}
       onMove={(e) => setViewport(e.viewState)}
-      mapboxAccessToken={process.env.MAPBOX_API_TOKEN}
+      mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_API_TOKEN}
       initialViewState={viewport}
       style={{ width: "100%", height: 400 }}
       mapStyle="mapbox://styles/mapbox/streets-v9"

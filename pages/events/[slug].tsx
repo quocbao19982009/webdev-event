@@ -22,8 +22,6 @@ interface EventDetailPageProps {
 const EventDetailPage = ({ event }: EventDetailPageProps) => {
   const ctx = useContext(AuthContext);
   const user = ctx?.user;
-  console.log(event);
-  console.log(user);
 
   const { venue, address, date, time, organizer, description, image, name } =
     event.attributes;
